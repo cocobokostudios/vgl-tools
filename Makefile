@@ -6,3 +6,9 @@ clean:
 
 install:
 	@$(MAKE) -C price install
+
+uninstall:
+	@$(MAKE) -C price uninstall
+
+test: 
+	@$(MAKE) -C price test
