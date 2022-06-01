@@ -3,7 +3,7 @@ package main
 import (
 	"fmt"
 
-	"github.com/cocobokostudios/vgl-tools/price/lib"
+	"github.com/cocobokostudios/vgl-tools/fetchprice/lib"
 )
 
 func main() {

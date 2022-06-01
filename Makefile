@@ -1,14 +1,14 @@
 build:
-	@$(MAKE) -C price build
+	@$(MAKE) -C fetchprice build
 
 clean:
-	@$(MAKE) -C price clean
+	@$(MAKE) -C fetchprice clean
 
 install:
-	@$(MAKE) -C price install
+	@$(MAKE) -C fetchprice install
 
 uninstall:
-	@$(MAKE) -C price uninstall
+	@$(MAKE) -C fetchprice uninstall
 
 test: 
-	@$(MAKE) -C price test
+	@$(MAKE) -C fetchprice test

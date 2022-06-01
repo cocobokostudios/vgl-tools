@@ -9,6 +9,6 @@ func GetPrice(id string) string {
 }
 
 func GetMessage() string {
-	message := []string{"hello", "from", "the", "price", "library"}
+	message := []string{"hello", "from", "the", "fetchprice", "library"}
 	return strings.Join(message, " ")
 }

@@ -2,7 +2,7 @@ build: clean
 	go build
 
 clean:
-	rm -f ./price
+	rm -f ./fetchprice
 
 install:
 	go install
