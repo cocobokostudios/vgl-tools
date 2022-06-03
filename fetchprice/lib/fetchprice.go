@@ -93,6 +93,9 @@ func getPCUrl(game, platform, edition string) string {
 	p := platform
 	e := edition
 
+	// TODO: map VGL platform codes to price charting
+	// TODO: normalize game name and edition to price charting standard
+
 	var urlResult string
 	if strings.TrimSpace(e) == "" {
 		urlResult = fmt.Sprintf("https://www.pricecharting.com/game/%s/%s", p, g)
