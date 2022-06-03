@@ -7,6 +7,6 @@ import (
 )
 
 func main() {
-	msg := lib.GetMessage()
-	fmt.Println(msg)
+	price, currency := lib.FetchPrice("uncharted-waters", "super-nintendo", "used", "", "CAD")
+	fmt.Printf("$ %5.2f %s\n", price, currency)
 }

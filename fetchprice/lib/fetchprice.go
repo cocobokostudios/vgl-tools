@@ -1,14 +1,8 @@
 package lib
 
-import (
-	"strings"
-)
+func FetchPrice(name, platform, condition, edition, currency string) (price float32, curr string) {
+	curr = currency
+	price = 1.23
 
-func GetPrice(id string) string {
-	return "123"
-}
-
-func GetMessage() string {
-	message := []string{"hello", "from", "the", "fetchprice", "library"}
-	return strings.Join(message, " ")
+	return price, curr
 }
