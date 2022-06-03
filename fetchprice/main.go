@@ -7,6 +7,6 @@ import (
 )
 
 func main() {
-	price, currency := lib.FetchPrice("uncharted-waters", "super-nintendo", "used", "", "CAD")
+	price, currency := lib.FetchPrice("uncharted-waters", "super-nintendo", "used", "")
 	fmt.Printf("$ %5.2f %s\n", price, currency)
 }
