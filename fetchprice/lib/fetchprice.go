@@ -23,7 +23,7 @@ func FetchPrice(name, platform, condition, edition string) (price float64, curr 
 	price = -1
 
 	// generate URL
-	url := "https://www.pricecharting.com/game/super-nintendo/uncharted-waters-new-horizons"
+	url := getPCUrl(name, platform, edition)
 	query := getPCQuery(condition)
 
 	// setup scraper
@@ -87,4 +87,19 @@ func getPCQuery(condition string) string {
 	}
 
 	return fmt.Sprintf("td[id=%s] .price", priceElementId)
+}
+func getPCUrl(game, platform, edition string) string {
+	g := game
+	p := platform
+	e := edition
+
+	var urlResult string
+	if strings.TrimSpace(e) == "" {
+		urlResult = fmt.Sprintf("https://www.pricecharting.com/game/%s/%s", p, g)
+	} else {
+		urlResult = fmt.Sprintf("https://www.pricecharting.com/game/%s/%s-%s", p, g, e)
+	}
+
+	return urlResult
+
 }
