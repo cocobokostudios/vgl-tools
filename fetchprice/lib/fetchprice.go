@@ -57,6 +57,17 @@ func FetchPrice(name, platform, condition, edition string) (price float64, curr 
 	return price, curr
 }
 
+func pcNormalizeString(s string) string {
+	normalized := strings.TrimSpace(s)
+	normalized = strings.ReplaceAll(normalized, ".", "")
+	normalized = strings.ReplaceAll(normalized, "'", "%27s")
+	normalized = strings.ReplaceAll(normalized, " ", "-")
+	normalized = strings.ReplaceAll(normalized, ":", "")
+	normalized = strings.ToLower(normalized)
+
+	return normalized
+}
+
 func getPCQuery(condition string) string {
 	// price charting element ids
 	const (
@@ -89,12 +100,54 @@ func getPCQuery(condition string) string {
 	return fmt.Sprintf("td[id=%s] .price", priceElementId)
 }
 func getPCUrl(game, platform, edition string) string {
-	g := game
-	p := platform
-	e := edition
-
 	// TODO: map VGL platform codes to price charting
+	var pcPlatforms = make(map[string]string)
+
+	pcPlatforms["2600"] = "atari-2600"
+	pcPlatforms["3ds"] = "nintendo-3ds"
+	pcPlatforms["colecovision"] = "colecovision"
+	pcPlatforms["dreamcast"] = "sega-dreamcast"
+	pcPlatforms["ds"] = "nintendo-ds"
+	pcPlatforms["famicom"] = "famicom"
+	pcPlatforms["famicom-disk-system"] = "famicom-disk-system"
+	pcPlatforms["gba"] = "gameboy-advance" // "jp-gameboy-advance"
+	pcPlatforms["gbc"] = "gameboy-color"
+	pcPlatforms["gameboy"] = "gameboy"
+	pcPlatforms["gamecube"] = "gamecube"
+	pcPlatforms["genesis"] = "sega-genesis"
+	pcPlatforms["nes"] = "nes"
+	pcPlatforms["n64"] = "nintendo-64"
+	pcPlatforms["n64dd"] = "jp-nintendo-64"
+	pcPlatforms["ps1"] = "playstation"
+	pcPlatforms["ps2"] = "playstation-2"
+	pcPlatforms["ps3"] = "playstation-3"
+	pcPlatforms["ps4"] = "playstation-4"
+	pcPlatforms["ps5"] = "playstation-5"
+	pcPlatforms["psp"] = "psp"
+	pcPlatforms["saturn"] = "saturn"
+	pcPlatforms["sega-cd"] = "sega-cd"
+	pcPlatforms["sfc"] = "super-famicom"
+	pcPlatforms["snes"] = "super-nintendo"
+	pcPlatforms["switch"] = "nintendo-switch"
+	pcPlatforms["tgfx16"] = "turbografx-16"
+	pcPlatforms["tgfxcd"] = "turbografx-cd"
+	pcPlatforms["vita"] = "playstation-vita"
+	pcPlatforms["vb"] = "virtual-boy"
+	pcPlatforms["wii"] = "wii"
+	pcPlatforms["wiiu"] = "wii-u"
+	pcPlatforms["wsc"] = "wonderswan-color"
+	pcPlatforms["xb"] = "xbox"
+	pcPlatforms["xb360"] = "xbox-360"
+	pcPlatforms["xb1"] = "xbox-one"
+	pcPlatforms["xbx"] = "xbox-series-x"
+
+	p := pcPlatforms[platform]
+
 	// TODO: normalize game name and edition to price charting standard
+
+	g := pcNormalizeString(game)
+
+	e := pcNormalizeString(edition)
 
 	var urlResult string
 	if strings.TrimSpace(e) == "" {
