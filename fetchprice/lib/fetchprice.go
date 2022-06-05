@@ -10,12 +10,12 @@ import (
 
 // conditions
 const (
-	used       = "used"
-	new        = "new"
-	complete   = "complete"
+	used       = "used"     // loose, or media only
+	new        = "new"      // sealed
+	complete   = "complete" // box + instructions + media
 	graded     = "graded"
-	boxOnly    = "boxOnly"
-	manualOnly = "manualOnly"
+	boxOnly    = "boxOnly"    // box
+	manualOnly = "manualOnly" // instructions
 )
 
 func FetchPrice(name, platform, condition, edition string) (price float64, curr string) {
@@ -55,6 +55,19 @@ func FetchPrice(name, platform, condition, edition string) (price float64, curr 
 	c.Visit(url)
 
 	return price, curr
+}
+
+func NormalizeString(s string) string {
+	normalized := strings.TrimSpace(s)
+	normalized = strings.ReplaceAll(normalized, ".", "")
+	normalized = strings.ReplaceAll(normalized, "'", "%27s")
+	normalized = strings.ReplaceAll(normalized, " ", "-")
+	normalized = strings.ReplaceAll(normalized, ":", "")
+	normalized = strings.ReplaceAll(normalized, "*", "")
+	normalized = strings.ReplaceAll(normalized, "`", "")
+	normalized = strings.ToLower(normalized)
+
+	return normalized
 }
 
 func pcNormalizeString(s string) string {
@@ -100,21 +113,21 @@ func getPCQuery(condition string) string {
 	return fmt.Sprintf("td[id=%s] .price", priceElementId)
 }
 func getPCUrl(game, platform, edition string) string {
-	// TODO: map VGL platform codes to price charting
+
 	var pcPlatforms = make(map[string]string)
 
 	pcPlatforms["2600"] = "atari-2600"
 	pcPlatforms["3ds"] = "nintendo-3ds"
-	pcPlatforms["colecovision"] = "colecovision"
-	pcPlatforms["dreamcast"] = "sega-dreamcast"
+	pcPlatforms["coleco"] = "colecovision"
+	pcPlatforms["dc"] = "sega-dreamcast"
 	pcPlatforms["ds"] = "nintendo-ds"
-	pcPlatforms["famicom"] = "famicom"
-	pcPlatforms["famicom-disk-system"] = "famicom-disk-system"
+	pcPlatforms["fami"] = "famicom"
+	pcPlatforms["famids"] = "famicom-disk-system"
 	pcPlatforms["gba"] = "gameboy-advance" // "jp-gameboy-advance"
 	pcPlatforms["gbc"] = "gameboy-color"
-	pcPlatforms["gameboy"] = "gameboy"
-	pcPlatforms["gamecube"] = "gamecube"
-	pcPlatforms["genesis"] = "sega-genesis"
+	pcPlatforms["gb"] = "gameboy"
+	pcPlatforms["gc"] = "gamecube"
+	pcPlatforms["gen"] = "sega-genesis"
 	pcPlatforms["nes"] = "nes"
 	pcPlatforms["n64"] = "nintendo-64"
 	pcPlatforms["n64dd"] = "jp-nintendo-64"
@@ -125,7 +138,7 @@ func getPCUrl(game, platform, edition string) string {
 	pcPlatforms["ps5"] = "playstation-5"
 	pcPlatforms["psp"] = "psp"
 	pcPlatforms["saturn"] = "saturn"
-	pcPlatforms["sega-cd"] = "sega-cd"
+	pcPlatforms["segacd"] = "sega-cd"
 	pcPlatforms["sfc"] = "super-famicom"
 	pcPlatforms["snes"] = "super-nintendo"
 	pcPlatforms["switch"] = "nintendo-switch"
@@ -142,11 +155,7 @@ func getPCUrl(game, platform, edition string) string {
 	pcPlatforms["xbx"] = "xbox-series-x"
 
 	p := pcPlatforms[platform]
-
-	// TODO: normalize game name and edition to price charting standard
-
 	g := pcNormalizeString(game)
-
 	e := pcNormalizeString(edition)
 
 	var urlResult string
@@ -157,5 +166,4 @@ func getPCUrl(game, platform, edition string) string {
 	}
 
 	return urlResult
-
 }
